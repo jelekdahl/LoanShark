@@ -1,0 +1,72 @@
+:root {
+  --je-primary-color: #001e43;
+  /* theme-100 or theme-200 // theme-800 or theme-900 ? */
+  --je-secondary-color: #ff993b;
+  /* theme-core or theme-500 or theme-600 */
+  --je-light-color: #dfe3e4;
+  --je-dark-color: #1b1b1b;
+}
+
+/* Sticky Footer */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+}
+
+/* End Sticky Footer */
+
+footer,
+nav.navbar {
+  flex-shrink: 0;
+  background-color: var(--je-primary-color);
+  color: var(--je-light-color);
+}
+
+footer .bi {
+  font-size: 2rem;
+  padding-left: .5rem;
+  color: var(--je-light-color);
+  transition: color 0.15s ease-in;
+}
+
+footer .bi:hover {
+  color: var(--je-secondary-color);
+}
+
+.nav-link.active:hover {
+  color: var(--je-secondary-color);
+}
+
+.devicons {
+  font-size: 3rem;
+}
+
+.bi-check-square-fill {
+  color: var(--je-secondary-color);
+}
+
+.app-logo {
+  max-width: 400px;
+  border-radius: 15px;
+  /* box-shadow: ; */
+}
+
+.codeHeader {
+  background-color: var(--je-primary-color);
+  color: var(--je-light-color);
+}
+
+.codeHeader:hover {
+  background-color: var(--je-secondary-color);
+  color: var(--je-dark-color);
+}
