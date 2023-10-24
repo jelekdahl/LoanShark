@@ -1,0 +1,24 @@
+Down payment
+Target monthly payment
+
+Start
+	Variables:
+		Loan Amount (get from user)
+		Term (get from user)
+		Interest rate (get from user)
+		Monthly Payment (calculate)
+		Remaining balance (loan amount)
+		Total Principal, Interest, Cost => set to $0
+		
+
+Loop
+	Calculate interest payment
+	Update total interest
+	Calculate principal payment
+	Update total principal
+	Calculate remaining balance
+	Update remaining balance
+	Add to Tbody
+
+
+	

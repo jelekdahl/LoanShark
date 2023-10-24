@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>APP NAME: By Jon-Erik Ekdahl</title>
+  <title>Loan Shark: By Jon-Erik Ekdahl</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -28,7 +28,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
         <img class="me-2" src="/img/je_logo_only_dark.svg" height="30" />
-        APP NAME
+        Loan Shark
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,8 @@
           </li>
           <li class="nav-item">
             <!-- CHANGE ME TO THE REAL REPO LINK -->
-            <a class="nav-link" href="#" target="_blank" rel="noopener noreferrer">The Repo</a>
+            <a class="nav-link" href="https://github.com/jelekdahl/LoanShark" target="_blank"
+              rel="noopener noreferrer">The Repo</a>
           </li>
           <li class="nav-item">
             <!-- CHANGE ME TO REAL PORTFOLIO LINK -->
@@ -69,11 +70,119 @@
     </div>
   </nav>
 
-  <main class="container py-3">
-    <h1>APP UI GOES HERE</h1>
-    <input class="form-control my-3" placeholder="Enter a message" type="text" style="width: 10rem;" name="message"
-      id="message" />
-    <button id="btnSubmit" class="btn btn-primary">Display Message</button>
+  <main class="container-lg py-3">
+    <div class="row">
+
+      <div class="col-12 col-md-5 col-lg-4 mb-2">
+        <div class="card h-100">
+          <div class="card-body">
+            <form id="loanForm" action="#" class="h-100">
+              <div class="row h-100">
+
+                <div class="col-6 mt-2">
+                  <label for="loanAmount" class="form-label-lg">Loan Amount</label>
+                </div>
+
+                <!-- min="0.01" -->
+                <div class="col-6 mb-4 mb-md-0">
+                  <input id="loanAmount" name="loanAmount" type="number" step="0.01" min="0.01" class="form-control"
+                    placeholder="Loan $" required />
+                </div>
+                
+                <div class="col-6 mt-2">
+                  <label for="termMonths" class="form-label-lg">Term (Months)</label>
+                </div>
+
+                <!-- min="1" -->
+                <div class="col-6 mb-4 mb-md-0">
+                  <input id="termMonths" name="termMonths" type="number" step="1" min="1" class="form-control"
+                    placeholder="# Months" required />
+                </div>
+
+                <div class="col-6 mt-2">
+                  <label for="interestRate" class="form-label-lg">Interest Rate (%)</label>
+                </div>
+
+                <!-- min="0" -->
+                <div class="col-6 mb-4 mb-md-0">
+                  <input id="interestRate" name="interestRate" type="number" step="0.01" min="0" class="form-control"
+                    placeholder="Interest %" required />
+                </div>
+
+                <div class="col-6 ms-auto align-self-end">
+                  <button id="btnCalculate" type="submit" class="btn btn-primary w-100">Calculate</button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-7 col-lg-8 mb-2">
+        <div class="card h-100">
+          <div class="card-body row row-cols-1 align-content-around">
+            <div class="col text-center">
+              <h1>Your Monthly Payments</h1>
+            </div>
+
+            <div id="monthlyPayment" class="col fs-1 text-center py-4">
+              $0.00
+            </div>
+
+            <div class="col row fs-5">
+              <span class="col-9">
+                Total Principal
+              </span>
+
+              <div id="totalPrincipal" class="col-3">
+                $0.00
+              </div>
+
+              <div class="col-9">
+                Total Interest
+              </div>
+
+              <div id="totalInterest" class="col-3">
+                $0.00
+              </div>
+
+              <div class="col-9">
+                Total Cost
+              </div>
+
+              <div id="totalCost" class="col-3">
+                $0.00
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped border mt-2">
+            <thead class="table-dark">
+              <tr>
+                <th>Month</th>
+                <th>Payment</th>
+                <th>Principal</th>
+                <th>Interest</th>
+                <th>Total Interest</th>
+                <th>Balance</th>
+                <th class="d-none">Total Principal</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsTable">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer class="py-3 container-fluid">
@@ -107,12 +216,14 @@
   <script src="/js/site.js"></script>
 
   <script>
-    // get the button on the page and assign it to a variable
-    let button = document.getElementById('btnSubmit');
-
-    // tell the button to run our displayMessage function when clicked
-    button.addEventListener('click', displayMessage);
-
+    let loanForm = document.getElementById('loanForm');
+    loanForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // don't refresh page!
+      calculateFormLoan(
+        'loanForm', 'paymentsTable', 'monthlyPayment',
+        'totalPrincipal', 'totalInterest', 'totalCost'
+      ); // instead, run this function
+    });
   </script>
 
 </body>
