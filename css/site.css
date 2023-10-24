@@ -56,16 +56,17 @@ footer .bi:hover {
 }
 
 .img-container {
-  width: 400px;
-  height: 400px;
-  border-radius: 15px;
   background-color: var(--je-primary-color);
+  height: 360px;
+  max-width: 360px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
 }
 
 .app-logo {
-  max-width: 350px;
+  width: 90%;
   border-radius: 15px;
-  /* box-shadow: ; */
 }
 
 .codeHeader {
