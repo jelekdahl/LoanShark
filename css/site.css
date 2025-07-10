@@ -78,3 +78,17 @@ footer .bi:hover {
   background-color: var(--je-secondary-color);
   color: var(--je-dark-color);
 }
+
+.personal-link > img {
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.personal-link:hover > img,
+.personal-link:focus > img,
+.personal-link:active > img {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
