@@ -92,3 +92,8 @@ footer .bi:hover {
     -ms-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+.resultsContainer {
+    overflow-y: auto;
+    max-height: calc(100vh - 502px);
+}
