@@ -69,14 +69,36 @@ footer .bi:hover {
   border-radius: 15px;
 }
 
-.codeHeader {
+.code-header {
+  font-size: 1.25rem;
+  transition: all 0.25s;
+}
+
+.code-header:active,
+.code-header:focus {
+  box-shadow: none;
+}
+
+.code-header.collapsed {
   background-color: var(--je-primary-color);
   color: var(--je-light-color);
 }
 
-.codeHeader:hover {
+.code-header.collapsed:hover,
+.code-header.collapsed:focus,
+.code-header:not(.collapsed) {
   background-color: var(--je-secondary-color);
   color: var(--je-dark-color);
+}
+
+.code-header.collapsed::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23dfe3e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.code-header.collapsed:hover::after,
+.code-header.collapsed:focus::after,
+.code-header:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231b1b1b'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
 .personal-link > img {
