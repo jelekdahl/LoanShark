@@ -73,70 +73,373 @@
     </div>
 
     <div class="accordion accordion-flush" id="accordionCode">
-      <!-- Function: displayMessage -->
+      <!-- Function: calculateFormLoan -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
+        <h2 class="accordion-header" id="headingCalculateFormLoan">
           <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Function: displayMessage
+              data-bs-target="#collapseCalculateFormLoan" aria-expanded="true" aria-controls="collapseCalculateFormLoan">
+            Function: calculateFormLoan
           </button>
         </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+        <div id="collapseCalculateFormLoan" class="accordion-collapse collapse" aria-labelledby="headingCalculateFormLoan">
           <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
             <div class="col-12 col-lg-8">
               <pre class="line-numbers">
                 <code class="language-js">
-                  function displayMessage() {
-                    //get the text out of our input and assign it to a variable
-                    let msg = document.getElementById('message').value;
-      
-                    //alert('Hello Guardian Cohort!');
-                    Swal.fire(
-                      {
-                        backdrop: false,
-                        title: 'APP NAME',
-                        text: msg, // <-- replace this text with that variable
-                      }
-                    );
+                  function calculateFormLoan(formId, tbodyId, monthlyId, principalId, interestId, costId) {
+                    let formInput = getFormInput(formId);
+
+                    if (!formInput) {
+                      document.getElementById(tbodyId).innerHTML = '';
+                    } else {
+                      let monthlyPct = formInput.interestRate / 1200;
+                      let monthlyPmt = getMonthlyPayment(formInput.loanAmount, formInput.termMonths, monthlyPct);
+
+                      let loanData = {
+                        balance: formInput.loanAmount,
+                        monthNumber: 1,
+                        monthlyRate: monthlyPct,
+                        monthlyPayment: monthlyPmt,
+                        totalPrincipal: 0,
+                        totalInterest: 0
+                      };
+
+                      addNewPayments(tbodyId, loanData);
+                      outputSummary(loanData, monthlyId, principalId, interestId, costId);
+                    }
                   }
                 </code>
               </pre>
             </div>
 
             <div class="col-12 col-lg-4">
-              <p>The code is structured in one function</p>
               <p>
-                <code>displayMessage</code> displays a SweetAlert
-                when the button is pressed.
+                Description coming soon
               </p>
             </div>
           </div>
         </div>
       </div>
-      <!-- Function: displayMessage -->
+
+      <!-- Function: getFormInput -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
+        <h2 class="accordion-header" id="headingGetFormInput">
           <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            Function: displayMessage
+              data-bs-target="#collapseGetFormInput" aria-expanded="true" aria-controls="collapseGetFormInput">
+            Function: getFormInput
           </button>
         </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+        <div id="collapseGetFormInput" class="accordion-collapse collapse" aria-labelledby="headingGetFormInput">
           <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
             <div class="col-12 col-lg-8">
               <pre class="line-numbers">
                 <code class="language-js">
-                  function displayMessage() {
-                    //get the text out of our input and assign it to a variable
-                    let msg = document.getElementById('message').value;
-      
-                    //alert('Hello Guardian Cohort!');
-                    Swal.fire(
-                      {
-                        backdrop: false,
-                        title: 'APP NAME',
-                        text: msg, // <-- replace this text with that variable
+                  function getFormInput(formId) {
+                    let loanForm = document.getElementById(formId);
+                    let formData = new FormData(loanForm);
+                    let formInput = Object.fromEntries(formData);
+
+                    formInput.loanAmount = parseFloat(formInput.loanAmount);
+                    if (!isValidLoanAmount(formInput.loanAmount)) {
+                      formInput = null;
+                    } else {
+                      formInput.termMonths = parseInt(formInput.termMonths);
+                      if (!isValidMonthCount(formInput.termMonths)) {
+                        formInput = null;
+                      } else {
+                        formInput.interestRate = parseFloat(formInput.interestRate);
+                        if (!isValidInterestRate(formInput.interestRate)) {
+                          formInput = null;
+                        }
                       }
+                    }
+
+                    return formInput;
+                  }
+                </code>
+              </pre>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <p>
+                Description coming soon
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function: isValidLoanAmount -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingIsValidLoanAmount">
+          <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseIsValidLoanAmount" aria-expanded="true" aria-controls="collapseIsValidLoanAmount">
+            Function: isValidLoanAmount
+          </button>
+        </h2>
+        <div id="collapseIsValidLoanAmount" class="accordion-collapse collapse" aria-labelledby="headingIsValidLoanAmount">
+          <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
+            <div class="col-12 col-lg-8">
+              <pre class="line-numbers">
+                <code class="language-js">
+                  function isValidLoanAmount(value) {
+                    if (Number.isNaN(value) || value <= 0) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Loan Amount',
+                        text: `Please change Loan Amount to a number greater than 0.`,
+                      });
+
+                      return false;
+                    }
+
+                    return true;
+                  }
+                </code>
+              </pre>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <p>
+                Description coming soon
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function: isValidMonthCount -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingIsValidMonthCount">
+          <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseIsValidMonthCount" aria-expanded="true" aria-controls="collapseIsValidMonthCount">
+            Function: isValidMonthCount
+          </button>
+        </h2>
+        <div id="collapseIsValidMonthCount" class="accordion-collapse collapse" aria-labelledby="headingIsValidMonthCount">
+          <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
+            <div class="col-12 col-lg-8">
+              <pre class="line-numbers">
+                <code class="language-js">
+                  function isValidMonthCount(value) {
+                    if (!Number.isInteger(value) || value < 1) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Month Count',
+                        text: `Please change Term (Months) to an integer greater than 0.`,
+                      });
+
+                      return false;
+                    }
+
+                    return true;
+                  }
+                </code>
+              </pre>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <p>
+                Description coming soon
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function: isValidInterestRate -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingIsValidInterestRate">
+          <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseIsValidInterestRate" aria-expanded="true" aria-controls="collapseIsValidInterestRate">
+            Function: isValidInterestRate
+          </button>
+        </h2>
+        <div id="collapseIsValidInterestRate" class="accordion-collapse collapse" aria-labelledby="headingIsValidInterestRate">
+          <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
+            <div class="col-12 col-lg-8">
+              <pre class="line-numbers">
+                <code class="language-js">
+                  function isValidInterestRate(value) {
+                    if (Number.isNaN(value) || value < 0) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Interest Rate',
+                        text: `Please change Interest Rate to a number greater than or equal to 0.`,
+                      });
+
+                      return false;
+                    }
+
+                    return true;
+                  }
+                </code>
+              </pre>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <p>
+                Description coming soon
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function: getMonthlyPayment -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingGetMonthlyPayment">
+          <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseGetMonthlyPayment" aria-expanded="true" aria-controls="collapseGetMonthlyPayment">
+            Function: getMonthlyPayment
+          </button>
+        </h2>
+        <div id="collapseGetMonthlyPayment" class="accordion-collapse collapse" aria-labelledby="headingGetMonthlyPayment">
+          <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
+            <div class="col-12 col-lg-8">
+              <pre class="line-numbers">
+                <code class="language-js">
+                  function getMonthlyPayment(balance, monthsLeft, monthlyRate) {
+                    if (monthlyRate == 0) return balance / monthsLeft;
+                    return (balance * monthlyRate / (1 - Math.pow(1 + monthlyRate, -monthsLeft)));
+                  }
+                </code>
+              </pre>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <p>
+                Description coming soon
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function: addNewPayments -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingAddNewPayments">
+          <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseAddNewPayments" aria-expanded="true" aria-controls="collapseAddNewPayments">
+            Function: addNewPayments
+          </button>
+        </h2>
+        <div id="collapseAddNewPayments" class="accordion-collapse collapse" aria-labelledby="headingAddNewPayments">
+          <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
+            <div class="col-12 col-lg-8">
+              <pre class="line-numbers">
+                <code class="language-js">
+                  function addNewPayments(tbodyId, loanData) {
+
+                    const formatter = new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    });
+
+                    let tbody = document.getElementById(tbodyId);
+                    tbody.innerHTML = '';
+
+                    let newRow, newCell;
+                    let monthlyPayment, interestPayment, principalPayment;
+
+                    while (loanData.balance > 0) {
+
+                      newRow = document.createElement('tr');
+
+                      // Month
+                      newCell = document.createElement('td');
+                      newCell.innerText = loanData.monthNumber++;
+                      newRow.appendChild(newCell);
+
+                      interestPayment = loanData.balance * loanData.monthlyRate;
+                      monthlyPayment = Math.min(loanData.monthlyPayment, loanData.balance + interestPayment);
+                      principalPayment = monthlyPayment - interestPayment;
+
+                      // Payment
+                      newCell = document.createElement('td');
+                      newCell.innerText = formatter.format(monthlyPayment);
+                      newRow.appendChild(newCell);
+
+                      // Principal
+                      newCell = document.createElement('td');
+                      newCell.innerText = formatter.format(principalPayment);
+                      newRow.appendChild(newCell);
+
+                      // Interest
+                      newCell = document.createElement('td');
+                      newCell.innerText = formatter.format(interestPayment);
+                      newRow.appendChild(newCell);
+
+                      // Total Interest
+                      loanData.totalInterest += interestPayment;
+                      newCell = document.createElement('td');
+                      newCell.innerText = formatter.format(loanData.totalInterest);
+                      newRow.appendChild(newCell);
+
+                      // Balance
+                      loanData.balance -= principalPayment;
+                      newCell = document.createElement('td');
+                      newCell.innerText = formatter.format(loanData.balance);
+                      newRow.appendChild(newCell);
+
+                      // Total Principal -- Keep hidden
+                      loanData.totalPrincipal += principalPayment;
+                      newCell = document.createElement('td');
+                      newCell.classList.add('d-none');
+                      newCell.innerText = formatter.format(loanData.totalPrincipal);
+                      newRow.appendChild(newCell);
+
+                      tbody.appendChild(newRow);
+                    }
+                  }
+                </code>
+              </pre>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <p>
+                Description coming soon
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function: outputSummary -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOutputSummary">
+          <button class="accordion-button code-header collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseOutputSummary" aria-expanded="true" aria-controls="collapseOutputSummary">
+            Function: outputSummary
+          </button>
+        </h2>
+        <div id="collapseOutputSummary" class="accordion-collapse collapse" aria-labelledby="headingOutputSummary">
+          <div class="row container bg-light ms-0 p-3 border border-1 border-dark-subtle">
+            <div class="col-12 col-lg-8">
+              <pre class="line-numbers">
+                <code class="language-js">
+                  function outputSummary(loanData, monthlyId, principalId, interestId, costId) {
+                    const formatter = new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    });
+
+                    // Monthly payment
+                    let monthlyPayment = document.getElementById(monthlyId);
+                    monthlyPayment.innerText = formatter.format(loanData.monthlyPayment);
+
+                    // Total principal
+                    let totalPrincipal = document.getElementById(principalId);
+                    totalPrincipal.innerText = formatter.format(loanData.totalPrincipal);
+
+                    // Total interest
+                    let totalInterest = document.getElementById(interestId);
+                    totalInterest.innerText = formatter.format(loanData.totalInterest);
+
+                    // Total cost
+                    let totalCost = document.getElementById(costId);
+                    totalCost.innerText = formatter.format(
+                      loanData.totalPrincipal + loanData.totalInterest
                     );
                   }
                 </code>
@@ -144,10 +447,8 @@
             </div>
 
             <div class="col-12 col-lg-4">
-              <p>The code is structured in one function</p>
               <p>
-                <code>displayMessage</code> displays a SweetAlert
-                when the button is pressed.
+                Description coming soon
               </p>
             </div>
           </div>
