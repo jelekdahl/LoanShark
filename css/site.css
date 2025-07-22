@@ -102,7 +102,12 @@ footer .bi:hover {
 }
 
 .code-toolbar > pre {
-    max-height: 50vh;
+  max-height: 50vh;
+}
+
+.accordion-collapse > .row > .col-lg-4 {
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .personal-link > img {

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Just Leave Me A Loan.: By Jon-Erik Ekdahl</title>
+  <title>Just Leave Me A Loan. By Jon-Erik Ekdahl</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -114,7 +114,29 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function is essentially the entry point for the app's primary
+                operation, which is to calculate and display loan payment data based
+                on the user's input. It is called when the user clicks the Calculate
+                button on the app's form.
+              </p>
+              <p>
+                When called, this function first retrieves the form data from the
+                form possessing the passed-in ID. If this form data is determined
+                to be invalid, the app will display a SweetAlert message instructing
+                the user on how to fix their form inputs; execution will then end.
+              </p>
+              <p>
+                If the form data is found to be valid, the app will perform
+                calculations related to the loan. The monthly interest rate will be
+                calculated based on the annual rate in the user's form input. Then
+                the monthly payment amount will be calculated according to the
+                formula for ammortized loans.
+              </p>
+              <p>
+                Next, a detailed monthly payment schedule will be written to a
+                table body on the app page specified by a passed-in ID. Finally,
+                subtotals and the calculated monthly payment will be printed to
+                elements on the app page specified by passed-in IDs.
               </p>
             </div>
           </div>
@@ -162,7 +184,16 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function is used to retrieve the user input for a loan's
+                parameters (amount, term, and interest rate) from a form specified
+                by the passed-in ID. It is called by the function that fires when
+                the user clicks the Calculate button on the app form.
+              </p>
+              <p>
+                After retrieving the three inputs from the form and inserting them
+                as properties into a single object, the inputs are validated via
+                separate functions. If any input fails validation, the function
+                returns a null value; otherwise, the created object will be returned.
               </p>
             </div>
           </div>
@@ -201,7 +232,16 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function is used to validate user input for loan amounts. It
+                is called by the function that retrieves the user's input from the
+                app's form.
+              </p>
+              <p>
+                If the user input is not a number above zero, a value
+                of false is returned; otherwise, a value of true is returned. In
+                the event of a false return value, a SweetAlert error message is
+                fired in the app beforehand. The message instructs the user on
+                valid input for a loan amount.
               </p>
             </div>
           </div>
@@ -240,7 +280,16 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function is used to validate user input for the duration of
+                a loan (in months). It is called by the function that retrieves
+                the user's input from the app's form.
+              </p>
+              <p>
+                If the input is not an integer (i.e. a whole number) above zero, a
+                value of false is returned; otherwise, a value of true is returned.
+                In the event of a false return value, a SweetAlert error message is
+                fired in the app beforehand. The message instructs the user on valid
+                input for a loan duration.
               </p>
             </div>
           </div>
@@ -279,7 +328,16 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function is used to validate user input for the interest rate
+                of a loan (as a percentage). It is called by the function that
+                retrieves the user's input from the app's form.
+              </p>
+              <p>
+                If the user input is not a number above zero, a value of false
+                is returned; otherwise, a value of true is returned. In the event
+                of a false return value, a SweetAlert error message is fired in the
+                app beforehand. The message instructs the user on valid input for a
+                loan interest rate.
               </p>
             </div>
           </div>
@@ -309,7 +367,19 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function calculates the monthly payment amount for a loan, given
+                the balance, the number of payment months, and the monthly rate of
+                the loan. It is called by the function that gets fired when the user
+                fills the app form with valid input and clicks the form's Calculate
+                button.
+              </p>
+              <p>
+                The payment amount is constant and calculated such that the
+                loan amount and all interest will be paid off exactly after the
+                number of months has passed. When there is no interest rate, the
+                payment is simply the loan amount divided by the number of months.
+                Otherwise, it is calculated according to the formula for monthly
+                amortized loan payments.
               </p>
             </div>
           </div>
@@ -398,7 +468,26 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function is used to populate a specified table body with rows
+                containing details on the monthly payments of a loan. It is called
+                by the function fired when the user clicks the Calculate button on
+                the app form.
+              </p>
+              <p>
+                When called, this function clears the table body of its contents and
+                adds a new row to it for every monthly payment needed to pay off the
+                full balance of the loan. The data in the table rows is copied from
+                the passed-in <code>loanData</code> object containing properties
+                representing the balance, starting month number, monthly payment
+                amount, monthly interest rate, total principal, and total interest.
+              </p>
+              <p>
+                The exact number of rows created is determined by updating the
+                <code>loanData</code> object after adding each row: specifically,
+                the balance is decreased with every row until it reaches zero; no
+                more rows are created at that point. Other properties - like the
+                starting month number, total principal, and total interest - are
+                updated with each new row as well.
               </p>
             </div>
           </div>
@@ -448,7 +537,19 @@
 
             <div class="col-12 col-lg-4">
               <p>
-                Description coming soon
+                This function is used to display a summary of a loan's payment
+                schedule to the app. It is called by the function that fires when
+                the user fills the app form with valid data and clicks the Calculate
+                button.
+              </p>
+              <p>
+                The summary printed is based on data from a passed-in
+                <code>loanData</code> object. Property values from this object are
+                printed into elements on the app page specified by passed-in element
+                IDs. The specific values printed out are the monthly payment amount,
+                total principal paid on the loan (which is the original loan amount),
+                the total interest paid on top off the principal, and the total
+                cost paid for the loan (i.e. the sum of the principal and interest).
               </p>
             </div>
           </div>
